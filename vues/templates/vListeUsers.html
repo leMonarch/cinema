@@ -1,0 +1,11 @@
+<section>
+  <h1>{{ titre|upper }}</h1>
+  <div>
+  {% for oUser in oUsers %}
+    <div>
+      <a href="user?user_id={{ oUser.user_id }}"><img src="{{ oUser.user_affiche }}" alt=""></a>
+      <p class="legende">{{ oUser.genre_nom }} - {{ oUser.user_annee_sortie }} - {{ oUser.user_duree }} min</p>
+    </div>
+  {% endfor %}
+  </div>
+</section> 

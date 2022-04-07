@@ -1,0 +1,34 @@
+<!-- script pour modifier le contenu de la barre d'adresse (avec l'uri "admin?entite=utilisateur") qui devient en phase avec le contenu du template affiché -->
+<script>history.pushState({}, '', 'admin?entite=utilisateur')</script>
+
+<section>
+  <h1>{{ titre|upper }}</h1>
+  <a href="admin?entite=utilisateur&action=a">Ajouter un utilisateur</a>
+  <p class="messageRetourAction {{ classRetour }}">{{ messageRetourAction }}&nbsp;</p>   
+  <div class="g utilisateurs">
+    <div class="t">Id</div>
+    <div class="t">Nom, Prénom</div>
+    <div class="t">Courriel</div>
+    <div class="t">Profil</div>
+    <div class="t">Actions</div>
+  {% for oUtilisateur in oUtilisateurs %}
+    <div class="l">
+      <div class="c dr">{{ oUtilisateur.utilisateur_id }}</div>
+      <div class="c   ">{{ oUtilisateur.utilisateur_nom }}, {{ oUtilisateur.utilisateur_prenom }}</div>
+      <div class="c mi">{{ oUtilisateur.utilisateur_courriel }}</div>
+      <div class="c   ">
+        {% if     oUtilisateur.utilisateur_profil is constant('Utilisateur::PROFIL_ADMIN') %} Administrateur
+        {% elseif oUtilisateur.utilisateur_profil is constant('Utilisateur::PROFIL_EDIT') %}  Éditeur
+        {% elseif oUtilisateur.utilisateur_profil is constant('Utilisateur::PROFIL_USER') %}  Utilisateur
+        {% endif %}
+      </div>
+      <div class="c   ">
+        <a href="admin?entite=utilisateur&action=m&utilisateur_id={{ oUtilisateur.utilisateur_id }}">modifier</a>
+        <span class="confirmer" data-href="admin?entite=utilisateur&action=s&utilisateur_id={{ oUtilisateur.utilisateur_id }}">supprimer</span>
+        <a href="admin?entite=utilisateur&action=g&utilisateur_id={{ oUtilisateur.utilisateur_id }}">générer mdp</a>
+      </div>
+    </div>
+  {% endfor %} 
+  </div>
+</section>
+{{ include("modaleSuppression.html") }}
